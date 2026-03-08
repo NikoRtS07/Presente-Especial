@@ -1,8 +1,12 @@
 :root {
     --textura-papel: url('TexturaPapel.png');
 }
-body,
-html {
+
+* {
+    box-sizing: border-box; /* Essencial para mobile */
+}
+
+body, html {
     margin: 0;
     padding: 0;
     width: 100%;
@@ -11,384 +15,215 @@ html {
     overflow: hidden;
     font-family: 'Playfair Display', serif;
 }
-/* --- INTRO & FINAL (CORRIGIDO PARA MOBILE) --- */
+
+/* --- INTRO & FINAL --- */
 .kh-intro-overlay {
     position: fixed; 
-    top: 0; 
-    left: 0; 
-    width: 100%; 
-    height: 100%;
+    top: 0; left: 0; 
+    width: 100%; height: 100%;
     background: black; 
     z-index: 5000;
     display: flex; 
     justify-content: center; 
     align-items: center;
-    padding: 20px; 
+    padding: 30px; 
     text-align: center;
-    /* Impede o navegador de redimensionar o texto sozinho */
-    -webkit-text-size-adjust: 100%;
-    text-size-adjust: 100%;
 }
-.kh-text {
+
+.kh-text, .kh-text-final {
     color: white; 
-    font-size: 1.3rem; /* Tamanho levemente menor para evitar quebras estranhas em telas pequenas */
+    font-size: 1.15rem;
     font-style: italic;
     opacity: 0; 
     transition: opacity 2s ease-in-out;
-    max-width: 90%; 
+    max-width: 100%; 
     line-height: 1.6;
-    /* Garante que o texto ocupe um espaço fixo mesmo antes de aparecer */
-    min-height: 1.6em; 
     word-wrap: break-word;
 }
-/* --- AJUSTE RESPONSIVO DA TELA FINAL --- */
+
+.kh-text-final {
+    opacity: 1 !important; /* Forçado via CSS para a tela fim */
+    color: #e0e0e0;
+}
+
 .kh-final-container {
     width: 100%;
-    max-width: 500px;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    box-sizing: border-box; /* Garante que o padding não "empurre" a largura */
+    max-width: 450px;
+    padding: 10px;
 }
-/* Ajuste específico para tablets e telas médias */
+
 @media (min-width: 768px) {
-    .kh-text {
-        font-size: 1.8rem;
-    }
+    .kh-text, .kh-text-final { font-size: 1.6rem; }
 }
+
 .kh-key-phrase {
     display: block;
-    margin-top: 20px;
+    margin-top: 25px;
     font-weight: bold;
     color: #ffd700;
-    /* Cor dourada para a frase icônica */
     text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
-
 }
+
 /* --- MODAL --- */
 .modal-overlay {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
     background: rgba(0, 0, 0, 0.95);
     z-index: 10000;
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: opacity 1s ease;
 }
+
 .modal-content {
     background-image: var(--textura-papel);
     background-size: cover;
-    padding: 40px;
+    padding: 30px;
     border-radius: 15px;
     text-align: center;
-    max-width: 320px;
-
+    max-width: 90%;
+    width: 320px;
 }
-/* --- BOTÕES ESTILO KINGDOM HEARTS (CORREÇÃO DE POSICIONAMENTO) --- */
+
+/* --- BOTÕES --- */
 #btn-comecar, .btn-finalizar {
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba(0, 0, 0, 0.8);
     color: #fff;
     border: 2px solid #fff;
-    padding: 12px 50px;
-    font-family: 'Playfair Display', serif;
-    font-size: 1.1rem;
+    padding: 12px 30px;
+    font-size: 1rem;
     text-transform: uppercase;
     letter-spacing: 2px;
     cursor: pointer;
-    position: relative;
-    /* Alteração aqui: removido o translateX fixo para não conflitar com o hover */
-    left: 50%;
-    transform: translateX(-50%); 
-    transition: all 0.2s ease;
+    margin: 20px auto 0;
+    display: block;
     clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);
     box-shadow: -5px 5px 0px #b71c1c;
-    display: block;
+    transition: 0.3s;
 }
+
 #btn-comecar:hover, .btn-finalizar:hover {
-    background: rgba(30, 30, 30, 0.9);
     color: #ffd700;
     box-shadow: -8px 8px 0px #ffd700;
-    /* Mantém o -50% da centralização e adiciona a animação */
-    animation: kh-balanco-centralizado 0.6s ease-in-out infinite;
+    transform: scale(1.05);
 }
-/* Nova animação que respeita a centralização */
-@keyframes kh-balanco-centralizado {
-    0%, 100% { transform: translateX(-50%); }
-    50% { transform: translateX(-45%); } /* Move levemente para a direita sem fugir da tela */
-}
-/* Ícones do Hover */
-#btn-comecar::before, .btn-finalizar::before {
-    content: '👉';
-    position: absolute;
-    left: -45px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 1.5rem;
-    opacity: 0;
-    transition: opacity 0.2s ease;
-}
-#btn-comecar:hover::before, .btn-finalizar:hover::before {
-    opacity: 1;
-}
-/* --- ÁREA DE FUNDO --- */
-#area-fundo {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: filter 0.8s ease, transform 0.8s ease;
 
-}
-#area-fundo.desfocado {
-    filter: blur(4px) brightness(0.5);
-    transform: scale(0.95);
-}
 /* --- ENVELOPE --- */
 .envelope-wrapper {
-    width: 320px;
-    height: 210px;
+    width: 280px;
+    height: 185px;
     position: relative;
     cursor: pointer;
     z-index: 10;
     opacity: 0;
-    pointer-events: none;
 }
+
+@media (min-width: 600px) {
+    .envelope-wrapper { width: 350px; height: 230px; }
+}
+
 .envelope-wrapper.iniciar-queda {
-    pointer-events: auto;
-    animation: chegadaSuave 3.5s cubic-bezier(0.39, 0.575, 0.565, 1) forwards, flutuar 3s ease-in-out infinite 3.5s;
+    animation: queda 3s ease-out forwards, flutuar 3s ease-in-out infinite 3s;
 }
-@keyframes chegadaSuave {
-    0% {
-        transform: translateY(-100vh) scale(0.2) rotate(-15deg);
-        opacity: 0;
-        filter: blur(10px);
-    }
-    100% {
-        transform: translateY(0) scale(1) rotate(0deg);
-        opacity: 1;
-        filter: blur(0);
-    }
+
+@keyframes queda {
+    0% { transform: translateY(-100vh) rotate(-20deg); opacity: 0; }
+    100% { transform: translateY(0) rotate(0deg); opacity: 1; }
 }
+
 @keyframes flutuar {
-    0%,
-    100% {
-        transform: translateY(0) rotate(0deg);
-    }
-    50% {
-        transform: translateY(-15px) rotate(1deg);
-    }
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
 }
+
 .envelope {
-    width: 100%;
-    height: 100%;
+    width: 100%; height: 100%;
     background-image: var(--textura-papel);
     background-size: cover;
     border-radius: 5px;
     position: relative;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
+
 .aba-superior {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 0;
-    height: 0;
-    border-left: 160px solid transparent;
-    border-right: 160px solid transparent;
-    border-top: 105px solid rgba(0, 0, 0, 0.15);
+    top: 0; left: 0;
+    width: 100%; height: 50%;
+    background: rgba(0,0,0,0.05);
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
     z-index: 5;
-    transform-origin: top;
-    transition: transform 0.6s ease;
+    transition: 0.6s;
 }
+
 .envelope-wrapper.aberto .aba-superior {
     transform: rotateX(180deg);
+    z-index: 0;
 }
+
 .selo-cera {
-    width: 75px;
+    width: 60px;
     position: absolute;
-    top: 50%;
-    left: 50%;
+    top: 50%; left: 50%;
     transform: translate(-50%, -50%);
     z-index: 10;
 }
-/* --- INSTRUÇÃO DE ABRIR COM ANIMAÇÃO --- */
-.instrucao-abrir {
-    position: absolute;
-    bottom: -55px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100%;
-    text-align: center;
-    white-space: normal;
-    font-family: 'Playfair Display', serif;
-    color: #fff;
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-    opacity: 0; /* Começa invisível */
-}
-/* Aplica a animação de respiração apenas quando o envelope termina de cair */
-.envelope-wrapper.iniciar-queda .instrucao-abrir {
-    animation: respirar 2s ease-in-out infinite 3.5s; /* 3.5s é o delay para esperar a queda */
-}
-@keyframes respirar {
-    0%, 100% { 
-        opacity: 0.3; 
-        transform: translateX(-50%) scale(0.95); 
-    }
-    50% { 
-        opacity: 1; 
-        transform: translateX(-50%) scale(1.05); 
-    }
-}
-.envelope-wrapper.aberto .instrucao-abrir {
-    display: none;
-}
-/* --- CARTA (SAÍDA SUAVE) --- */
-.camada-superior-isolada {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 9999;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+
+/* --- CARTA --- */
 .carta-wrapper {
-    pointer-events: auto;
     opacity: 0;
     visibility: hidden;
-    width: 85vw;
+    width: 90vw;
     max-width: 450px;
-    height: 80vh;
+    height: 75vh;
     background-image: var(--textura-papel);
     background-size: cover;
-    padding: 40px 30px;
-    border-radius: 15px;
-    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.9);
-    transition: transform 1.2s cubic-bezier(0.19, 1, 0.22, 1), opacity 1.2s cubic-bezier(0.19, 1, 0.22, 1);
-    transform: translateY(100px) scale(0.6);
+    padding: 30px 20px;
+    border-radius: 10px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+    transition: 0.8s;
+    transform: translateY(50px);
     overflow-y: auto;
 }
+
 .carta-wrapper.exibindo {
     opacity: 1;
     visibility: visible;
-    transform: translateY(0) scale(1);
+    transform: translateY(0);
 }
-/* Título e Texto */
+
 .titulo-carta {
     font-family: 'Dancing Script', cursive;
-    font-size: 2.3rem;
+    font-size: 1.8rem;
     color: #5d4037;
     text-align: center;
-    padding-bottom: 10px;
-    margin-bottom: 25px;
-    text-shadow: 2px 2px 4px rgba(93, 64, 55, 0.1);
-    font-weight: bold;
 }
+
 .texto-carta {
     font-family: 'Dancing Script', cursive;
-    font-size: 1.35rem;
-    line-height: 1.8;
+    font-size: 1.2rem;
+    line-height: 1.6;
     color: #2c1e1c;
-    text-align: justify;
 }
-.bloco-final-carta {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    margin-top: 40px;
-}
-.icones-centralizados {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    font-size: 1.8rem;
-}
-.assinatura-direita {
-    display: flex;
-    justify-content: flex-end;
-    font-family: 'Dancing Script', cursive;
-    font-size: 1.8rem;
-    color: #5d4037;
-}
-.pergunta {
-    color: #b71c1c;
-    font-weight: bold;
-    font-size: 1.5rem;
-    text-align: center;
-    margin-top: 30px;
-}
-.instrucao-fechar {
-    margin-top: 40px;
-    font-size: 0.8rem;
-    color: #8d6e63;
-    text-align: center;
-    cursor: pointer;
-}
-/* --- BOTÃO FINALIZAR --- */
-.btn-finalizar {
-    position: absolute;
-    bottom: 15%;
-    left: 50%;
-    transform: translateX(-50%);
-    background: transparent;
-    color: #ffcdd2;
-    border: 1px solid #ffcdd2;
-    padding: 10px 25px;
-    border-radius: 20px;
-    font-family: 'Playfair Display', serif;
-    cursor: pointer;
-    opacity: 0;
-    display: none;
-    transition: all 1s ease;
-    z-index: 20;
-}
-.btn-finalizar.mostrar-finalizar {
-    display: block;
-    opacity: 1;
-}
-.btn-finalizar:hover {
-    background: rgba(255, 205, 210, 0.2);
-    box-shadow: 0 0 15px rgba(255, 205, 210, 0.5);
-}
+
 /* --- PÉTALAS --- */
 #petals-container {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
     pointer-events: none;
-    z-index: 1;
 }
+
 .petal {
     position: absolute;
-    border-radius: 70% 10% 80% 10%;
-    background: linear-gradient(135deg, #ff1744 0%, #b71c1c 100%);
-    opacity: 0;
-    animation: falling_natural 10s linear forwards;
+    width: 15px; height: 15px;
+    background: #ff1744;
+    border-radius: 150% 0 150% 0;
+    animation: falling_natural 8s linear infinite;
 }
-/* --- AJUSTE DAS PÉTALAS (ROTAÇÃO 3D) --- */
+
 @keyframes falling_natural {
-    0% {
-        transform: translateY(-10vh) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
-        opacity: 0;
-    }
-    15% {
-        opacity: 0.8;
-    }
-    100% {
-        /* Adicionando um deslocamento e rotação maior para parecer vento */
-        transform: translateY(110vh) translateX(150px) rotateX(720deg) rotateY(360deg) rotateZ(180deg);
-        opacity: 0;
-    }
+    0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.8; }
+    100% { transform: translateY(110vh) translateX(100px) rotate(720deg); opacity: 0; }
 }
