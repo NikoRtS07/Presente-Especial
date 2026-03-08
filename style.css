@@ -1,12 +1,13 @@
+* {
+    box-sizing: border-box;
+}
+
 :root {
     --textura-papel: url('TexturaPapel.png');
 }
 
-* {
-    box-sizing: border-box; /* Essencial para mobile */
-}
-
-body, html {
+body,
+html {
     margin: 0;
     padding: 0;
     width: 100%;
@@ -16,49 +17,60 @@ body, html {
     font-family: 'Playfair Display', serif;
 }
 
-/* --- INTRO & FINAL --- */
+/* --- INTRO & FINAL (RESPONSIVO) --- */
 .kh-intro-overlay {
     position: fixed; 
-    top: 0; left: 0; 
-    width: 100%; height: 100%;
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%;
     background: black; 
     z-index: 5000;
     display: flex; 
+    flex-direction: column;
     justify-content: center; 
     align-items: center;
-    padding: 30px; 
+    padding: 20px; 
     text-align: center;
+    box-sizing: border-box;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    width: 100%;       /* Ocupa a largura disponível */
+    max-width: 540px;  /* Mas não passa de 540px */
 }
 
-.kh-text, .kh-text-final {
+.kh-text {
     color: white; 
-    font-size: 1.15rem;
+    font-size: 1.2rem;
     font-style: italic;
     opacity: 0; 
     transition: opacity 2s ease-in-out;
-    max-width: 100%; 
+    width: 100%;       /* Ocupa o espaço do pai (.kh-final-container) */
+    max-width: 100%;   /* Garante que não ultrapasse o pai */
+    max-width: 90%; 
     line-height: 1.6;
     word-wrap: break-word;
-}
-
-.kh-text-final {
-    opacity: 1 !important; /* Forçado via CSS para a tela fim */
-    color: #e0e0e0;
+    text-align: center; /* Centraliza as linhas de texto */
 }
 
 .kh-final-container {
     width: 100%;
-    max-width: 450px;
-    padding: 10px;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto; /* Centraliza o contêiner na página */
+    padding: 0 20px; /* Margem interna de segurança para o texto não encostar na borda do celular */
 }
 
 @media (min-width: 768px) {
-    .kh-text, .kh-text-final { font-size: 1.6rem; }
+    .kh-text { font-size: 1.8rem; }
 }
 
 .kh-key-phrase {
     display: block;
-    margin-top: 25px;
+    margin-top: 20px;
     font-weight: bold;
     color: #ffd700;
     text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
@@ -67,13 +79,16 @@ body, html {
 /* --- MODAL --- */
 .modal-overlay {
     position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     background: rgba(0, 0, 0, 0.95);
     z-index: 10000;
     display: flex;
     justify-content: center;
     align-items: center;
+    transition: opacity 1s ease;
 }
 
 .modal-content {
@@ -82,114 +97,202 @@ body, html {
     padding: 30px;
     border-radius: 15px;
     text-align: center;
-    max-width: 90%;
-    width: 320px;
+    max-width: 280px;
+    width: 90%;
 }
 
-/* --- BOTÕES --- */
+/* --- BOTÕES ESTILO KINGDOM HEARTS --- */
 #btn-comecar, .btn-finalizar {
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(0, 0, 0, 0.7);
     color: #fff;
     border: 2px solid #fff;
-    padding: 12px 30px;
-    font-size: 1rem;
+    padding: 12px 40px;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
     text-transform: uppercase;
     letter-spacing: 2px;
     cursor: pointer;
-    margin: 20px auto 0;
-    display: block;
+    position: relative;
     clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);
     box-shadow: -5px 5px 0px #b71c1c;
-    transition: 0.3s;
+    transition: all 0.3s ease;
+}
+
+#btn-comecar {
+    display: block;
+    margin: 20px auto 0;
+}
+
+.btn-finalizar {
+    position: absolute;
+    bottom: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    display: none; /* Controlado pelo JS */
+    opacity: 0;
+    z-index: 100;
+    white-space: nowrap;
+}
+
+.btn-finalizar.mostrar-finalizar {
+    display: block;
+    opacity: 1;
 }
 
 #btn-comecar:hover, .btn-finalizar:hover {
+    background: rgba(30, 30, 30, 0.9);
     color: #ffd700;
     box-shadow: -8px 8px 0px #ffd700;
+    transform: translateX(-50%) scale(1.05); /* Mantém centralizado no hover */
+}
+
+#btn-comecar:hover {
     transform: scale(1.05);
+}
+
+/* --- ÁREA DE FUNDO --- */
+#area-fundo {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: filter 0.8s ease, transform 0.8s ease;
+}
+
+#area-fundo.desfocado {
+    filter: blur(4px) brightness(0.5);
+    transform: scale(0.95);
 }
 
 /* --- ENVELOPE --- */
 .envelope-wrapper {
     width: 280px;
-    height: 185px;
+    height: 180px;
     position: relative;
     cursor: pointer;
     z-index: 10;
     opacity: 0;
+    pointer-events: none;
 }
 
-@media (min-width: 600px) {
-    .envelope-wrapper { width: 350px; height: 230px; }
+@media (min-width: 400px) {
+    .envelope-wrapper { width: 320px; height: 210px; }
 }
 
 .envelope-wrapper.iniciar-queda {
-    animation: queda 3s ease-out forwards, flutuar 3s ease-in-out infinite 3s;
+    pointer-events: auto;
+    animation: chegadaSuave 3.5s cubic-bezier(0.39, 0.575, 0.565, 1) forwards, flutuar 3s ease-in-out infinite 3.5s;
 }
 
-@keyframes queda {
-    0% { transform: translateY(-100vh) rotate(-20deg); opacity: 0; }
-    100% { transform: translateY(0) rotate(0deg); opacity: 1; }
+@keyframes chegadaSuave {
+    0% { transform: translateY(-100vh) scale(0.2) rotate(-15deg); opacity: 0; filter: blur(10px); }
+    100% { transform: translateY(0) scale(1) rotate(0deg); opacity: 1; filter: blur(0); }
 }
 
 @keyframes flutuar {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-15px) rotate(1deg); }
 }
 
 .envelope {
-    width: 100%; height: 100%;
+    width: 100%;
+    height: 100%;
     background-image: var(--textura-papel);
     background-size: cover;
     border-radius: 5px;
     position: relative;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
 }
 
 .aba-superior {
     position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 50%;
-    background: rgba(0,0,0,0.05);
-    clip-path: polygon(0 0, 100% 0, 50% 100%);
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-left: 140px solid transparent;
+    border-right: 140px solid transparent;
+    border-top: 90px solid rgba(0, 0, 0, 0.15);
     z-index: 5;
-    transition: 0.6s;
+    transform-origin: top;
+    transition: transform 0.6s ease;
 }
 
-.envelope-wrapper.aberto .aba-superior {
-    transform: rotateX(180deg);
-    z-index: 0;
+@media (min-width: 400px) {
+    .aba-superior { border-left: 160px solid transparent; border-right: 160px solid transparent; border-top: 105px solid rgba(0, 0, 0, 0.15); }
 }
+
+.envelope-wrapper.aberto .aba-superior { transform: rotateX(180deg); }
 
 .selo-cera {
-    width: 60px;
+    width: 65px;
     position: absolute;
-    top: 50%; left: 50%;
+    top: 50%;
+    left: 50%;
     transform: translate(-50%, -50%);
     z-index: 10;
 }
 
+.instrucao-abrir {
+    position: absolute;
+    bottom: -55px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    text-align: center;
+    font-family: 'Playfair Display', serif;
+    color: #fff;
+    opacity: 0;
+}
+
+.envelope-wrapper.iniciar-queda .instrucao-abrir {
+    animation: respirar 2s ease-in-out infinite 3.5s;
+}
+
+@keyframes respirar {
+    0%, 100% { opacity: 0.3; transform: translateX(-50%) scale(0.95); }
+    50% { opacity: 1; transform: translateX(-50%) scale(1.05); }
+}
+
+.envelope-wrapper.aberto .instrucao-abrir { display: none; }
+
 /* --- CARTA --- */
+.camada-superior-isolada {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .carta-wrapper {
+    pointer-events: auto;
     opacity: 0;
     visibility: hidden;
     width: 90vw;
     max-width: 450px;
-    height: 75vh;
+    height: 85vh;
     background-image: var(--textura-papel);
     background-size: cover;
     padding: 30px 20px;
-    border-radius: 10px;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.8);
-    transition: 0.8s;
-    transform: translateY(50px);
+    border-radius: 15px;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.9);
+    transition: all 1.2s cubic-bezier(0.19, 1, 0.22, 1);
+    transform: translateY(100px) scale(0.6);
     overflow-y: auto;
+    box-sizing: border-box;
 }
 
 .carta-wrapper.exibindo {
     opacity: 1;
     visibility: visible;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
 }
 
 .titulo-carta {
@@ -197,6 +300,7 @@ body, html {
     font-size: 1.8rem;
     color: #5d4037;
     text-align: center;
+    margin-bottom: 20px;
 }
 
 .texto-carta {
@@ -204,26 +308,65 @@ body, html {
     font-size: 1.2rem;
     line-height: 1.6;
     color: #2c1e1c;
+    text-align: justify;
+}
+
+.bloco-final-carta {
+    margin-top: 30px;
+    text-align: right;
+}
+
+.icones-centralizados {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.assinatura-direita {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.6rem;
+    color: #5d4037;
+}
+
+.pergunta {
+    color: #b71c1c;
+    font-weight: bold;
+    font-size: 1.3rem;
+    text-align: center;
+    margin-top: 25px;
+}
+
+.instrucao-fechar {
+    margin-top: 30px;
+    font-size: 0.8rem;
+    color: #8d6e63;
+    text-align: center;
+    cursor: pointer;
 }
 
 /* --- PÉTALAS --- */
 #petals-container {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     pointer-events: none;
+    z-index: 1;
 }
 
 .petal {
     position: absolute;
-    width: 15px; height: 15px;
-    background: #ff1744;
-    border-radius: 150% 0 150% 0;
-    animation: falling_natural 8s linear infinite;
+    border-radius: 70% 10% 80% 10%;
+    background: linear-gradient(135deg, #ff1744 0%, #b71c1c 100%);
+    opacity: 0;
+    animation: falling_natural 10s linear forwards;
 }
 
 @keyframes falling_natural {
     0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
-    10% { opacity: 0.8; }
+    15% { opacity: 0.8; }
     100% { transform: translateY(110vh) translateX(100px) rotate(720deg); opacity: 0; }
 }
