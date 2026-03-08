@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
         "Uma lembrança distante que é como um sonho estilhaçado...",
         "Eu quero alinhar essas lembranças — as suas e as minhas.",
         "Neste dia tão especial, com um gesto simples mas de coração",
-        "Eu quero te mostrar o quanto você é especial para mim, Tamylla"
+        "Eu quero te mostrar o quanto você é especial, Tamylla!!"
     ];
 
     // 2. FUNÇÃO DE SOM (BIP)
@@ -133,4 +133,5 @@ document.addEventListener('DOMContentLoaded', () => {
             telaFim.querySelector('.kh-text').style.opacity = '1';
         }, 500);
     });
+
 }); // <--- O fechamento do DOMContentLoaded deve ser aqui no final!
